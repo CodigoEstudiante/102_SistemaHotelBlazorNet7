@@ -1,0 +1,12 @@
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\bin\Debug\net7.0\SistemaHotel.Shared.deps.json
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\bin\Debug\net7.0\SistemaHotel.Shared.dll
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\bin\Debug\net7.0\SistemaHotel.Shared.pdb
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\SistemaHotel.Shared.csproj.AssemblyReference.cache
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\SistemaHotel.Shared.GeneratedMSBuildEditorConfig.editorconfig
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\SistemaHotel.Shared.AssemblyInfoInputs.cache
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\SistemaHotel.Shared.AssemblyInfo.cs
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\SistemaHotel.Shared.csproj.CoreCompileInputs.cache
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\SistemaHotel.Shared.dll
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\refint\SistemaHotel.Shared.dll
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\SistemaHotel.Shared.pdb
+E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\SistemaHotel\SistemaHotel\Shared\obj\Debug\net7.0\ref\SistemaHotel.Shared.dll

@@ -1,0 +1,156 @@
+﻿@page "/page/recepcion"
+@inject IPisoServicio _pisoServicio
+@inject IHabitacionServicio _habitacionServicio
+@inject NavigationManager _navManager
+@inject SweetAlertService Swal;
+@inject ISnackbar _snackBar
+@attribute [Authorize]
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+    <MudText Typo="Typo.h5" GutterBottom="true">Recepcion</MudText>
+
+    <MudPaper Elevation="3" Class="pa-4" Width="100%">
+
+
+        <MudGrid>
+            <MudItem xs="12" lg="3" md="4" sm="6">
+                <MudSelect T="PisoDTO" Label="Piso" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" Class="mb-3"
+                           Value="pisoSeleccionado" Margin="Margin.Dense"
+                           ValueChanged="OnSelectedValueChanged">
+                    @if (listaPisos.Any())
+                    {
+                        foreach (var item in listaPisos)
+                        {
+                            <MudSelectItem Value="@item">@item.Descripcion</MudSelectItem>
+                        }
+                    }
+                </MudSelect>
+            </MudItem>
+
+        </MudGrid>
+
+        <MudDivider Class="my-2" />
+
+        <MudGrid>
+
+            @if (listaHabitaciones != null)
+            {
+
+                foreach (var item in listaHabitaciones)
+                {
+                    string borderTarjeta = item.IdEstadoHabitacion == 1 ? "mud-border-success" : item.IdEstadoHabitacion == 2 ? "mud-border-info" : "mud-border-error";
+                    Color colorTarjeta = item.IdEstadoHabitacion == 1 ? Color.Success : item.IdEstadoHabitacion == 2 ? Color.Info : Color.Error;
+                    string icono = item.IdEstadoHabitacion == 1 ? Icons.Material.Filled.KingBed : Icons.Material.Filled.CleaningServices;
+                    
+                    <MudItem xs="12" lg="3" md="4" sm="6">
+                        <MudCard Class="@(borderTarjeta + " border-solid border-1")">
+                            <MudCardContent Class="d-flex flex-row justify-space-between">
+                                <div>
+                                    <MudText Typo="Typo.h5">@item.Numero</MudText>
+                                    <MudText Typo="Typo.body1">Categoria: @item.IdCategoriaNavigation!.Descripcion</MudText>
+                                </div>
+                                <MudIcon Icon="@icono" Color="colorTarjeta" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton Variant="Variant.Text" Color="colorTarjeta" FullWidth="true"
+                                OnClick="@(() => VerDetalle(item))"
+                                >
+                                    @item.IdEstadoHabitacionNavigation!.Descripcion
+                                    </MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                }
+            }
+            else
+            {
+                <MudItem xs="12" lg="3" md="4" sm="6" Class="d-flex justify-center">
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+                </MudItem>
+                
+            }
+
+        </MudGrid>
+
+    </MudPaper>
+
+</MudContainer>
+
+
+@code {
+    List<PisoDTO> listaPisos = new List<PisoDTO>();
+    public PisoDTO pisoSeleccionado;
+
+    List<HabitacionDTO> listaHabitaciones = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responsePiso = await _pisoServicio.Lista();
+        if (responsePiso.status)
+        {
+            listaPisos = (List<PisoDTO>)responsePiso.value!;
+            pisoSeleccionado = listaPisos.First();
+        }
+
+        await ObtenerHabitaciones(1);
+    }
+
+    private async Task ObtenerHabitaciones(int idPiso)
+    {
+        var response = await _habitacionServicio.Lista();
+        listaHabitaciones = null;
+        if (response.status)
+        {
+            listaHabitaciones = ((List<HabitacionDTO>)response.value!).Where(h => h.IdEstadoHabitacion != 3 && h.IdPiso == idPiso).ToList();
+        }
+
+    }
+
+
+    private async Task OnSelectedValueChanged(PisoDTO value)
+    {
+        pisoSeleccionado = value;
+        int idPiso = value.IdPiso;
+        await ObtenerHabitaciones(idPiso);
+    }
+
+    private async Task VerDetalle(HabitacionDTO modelo)
+    {
+
+        if(modelo.IdEstadoHabitacion == 2)
+        {
+            SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Esta seguro?",
+                    Text = $"Cambiar a disponible",
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si, actualizar",
+                    CancelButtonText = "No, volver"
+                });
+
+            if (result.IsConfirmed)
+            {
+
+                modelo.IdEstadoHabitacion = 1;
+                modelo.IdEstadoHabitacionNavigation.IdEstadoHabitacion = 1;
+                modelo.IdEstadoHabitacionNavigation.Descripcion = "Disponible";
+                var resultado = await _habitacionServicio.Editar(modelo);
+
+                if (resultado)
+                {
+                    _snackBar.Add("Se cambio el estado", Severity.Success, a => a.VisibleStateDuration = 1000);
+                }
+                else
+                    _snackBar.Add("No se pudo actualizar", Severity.Error, a => a.VisibleStateDuration = 1000);
+            }
+        }
+        else
+        {
+            _navManager.NavigateTo($"/page/detalle/{modelo.IdHabitacion}");
+        }
+
+       
+    }
+
+}

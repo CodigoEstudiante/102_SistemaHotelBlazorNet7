@@ -1,0 +1,59 @@
+	insert into RolUsuario(Descripcion) values
+	('Administrador'),
+	('Empleado')
+
+
+	go
+
+	insert into Usuario(NombreCompleto,Correo,IdRolUsuario,Clave) values
+	('admin','admin@gmail.com',1,'123')
+
+
+	go
+
+	insert into Categoria(Descripcion) values 
+	('Individual'),
+	('Doble'),
+	('Matrimonial')
+
+	go
+
+	insert into Piso(Descripcion) values
+	('Primero'),
+	('Segundo'),
+	('Tercero')
+
+	go 
+
+
+	insert into Cliente(TipoDocumento,Documento,NombreCompleto,Correo) values
+	('DNI','78788989','mario mendez','mario@gmail.com')
+
+	go
+
+
+	insert into EstadoHabitacion(IdEstadoHabitacion,Descripcion) values
+	(1,'Disponible'),
+	(2,'Limpieza'),
+	(3,'Ocupado')
+
+	go
+
+	insert into Habitacion(Numero,Detalle,Precio,IdEstadoHabitacion,IdPiso,IdCategoria) values
+	('001','WIFI + BAÑO + TV CABLE',90,1,1,1),
+	('002','WIFI + BAÑO + TV + CABLE','80',1,1,2),
+	('003','BAÑO + TV + CABLE','60',1,1,3),
+	('004','WIFI + BAÑO + TV + CABLE','80',1,1,2),
+	('005','WIFI + BAÑO','50',1,1,3),
+	
+	('006','WIFI + BAÑO + TV 4K + CABLE','80',1,2,3),
+	('007','WIFI + BAÑO + TV 4K + CABLE','90',1,2,2),
+	('008','WIFI + BAÑO + TV + CABLE','70',1,2,3),
+	('009','WIFI + BAÑO + TV + CABLE','80',1,2,2),
+	('010','WIFI + BAÑO + TV + CABLE','70',1,2,3),
+	
+	('011','WIFI + BAÑO + TV 4K + CABLE','120',1,3,1),
+	('012','WIFI + BAÑO + TV 4K + CABLE','120',1,3,1),
+	('013','WIFI + BAÑO + TV 4K + CABLE','120',1,3,1),
+	('014','WIFI + BAÑO + TV + CABLE','85',1,3,2),
+	('015','WIFI + BAÑO + TV + CABLE','75',1,3,3)

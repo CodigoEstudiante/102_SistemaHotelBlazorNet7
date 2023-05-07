@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+<MudNavMenu>
+    <MudNavLink Href="/page/dashboard" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">DashBoard</MudNavLink>
+     <AuthorizeView Roles="Administrador">
+            <Authorized>
+
+                <MudNavLink Href="/page/usuario" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Person2">Usuarios</MudNavLink>
+                <MudNavGroup Icon="@Icons.Material.Filled.Settings" Title="Mantenimiento">
+                    <MudNavLink Href="/page/categoria">Categoria</MudNavLink>
+                    <MudNavLink Href="/page/piso">Piso</MudNavLink>
+                    <MudNavLink Href="/page/habitacion">Habitacion</MudNavLink>
+                </MudNavGroup>
+
+
+            </Authorized>
+      </AuthorizeView>
+    
+   
+    <MudNavLink Href="/page/cliente" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Group">Clientes</MudNavLink>
+    <MudNavLink Href="/page/recepcion" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AllInbox">Recepcion</MudNavLink>
+    <MudNavLink Href="/page/salida" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PriceCheck">Salida</MudNavLink>
+
+    <AuthorizeView Roles="Administrador">
+            <Authorized>
+                <MudNavLink Href="/page/reporte" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PlaylistAddCheckCircle">Reportes</MudNavLink>
+            </Authorized>
+     </AuthorizeView>
+    
+</MudNavMenu>
+
+      

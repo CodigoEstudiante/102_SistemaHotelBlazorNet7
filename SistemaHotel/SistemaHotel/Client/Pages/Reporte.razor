@@ -1,0 +1,148 @@
+﻿@page "/page/reporte"
+@using ClosedXML.Excel;
+@inject IJSRuntime _jsServicio;
+@inject IRecepcionServicio _recepcionServicio;
+@attribute [Authorize(Roles = "Administrador")]
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+    <MudText Typo="Typo.h5" GutterBottom="true">Reporte</MudText>
+
+    <MudPaper Elevation="3" Class="pa-4" Width="100%">
+
+        <div class="d-flex flex-grow-1 gap-3">
+
+            <MudDatePicker Label="Fecha Inicio" PickerVariant="PickerVariant.Dialog" Margin="Margin.Dense" DisableToolbar="true"
+                           Variant="Variant.Outlined" DateFormat="dd/MM/yyyy" @bind-Date="fechaInicio" />
+
+            <MudDatePicker Label="Fecha Fin" PickerVariant="PickerVariant.Dialog" Margin="Margin.Dense" DisableToolbar="true"
+                           Variant="Variant.Outlined" DateFormat="dd/MM/yyyy" @bind-Date="fechaFin"  />
+
+
+            <MudButton Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Search"
+                       Color="Color.Info"
+                       Size="Size.Medium"
+                       Class="mt-1"
+                       OnClick="Buscar">Buscar</MudButton>
+
+        </div>
+
+        <MudGrid>
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled"
+                           StartIcon="@Icons.Material.Filled.DataThresholding"
+                           Color="Color.Success"
+                           Size="Size.Medium"
+                           Class="mt-1"
+                           OnClick="ExportarExcel" Disabled="@desactivarBoton">Exportar Excel</MudButton>
+            </MudItem>
+            <MudItem xs="12">
+
+                <MudTable Items="@lista"
+                          Dense="true"
+                          Striped="true" Bordered="true"
+                          Loading="@_loading" LoadingProgressColor="Color.Info">
+                    <HeaderContent>
+                        <MudTh>Nombre Cliente</MudTh>
+                        <MudTh>Tipo documento</MudTh>
+                        <MudTh>Nro Documento</MudTh>
+                        <MudTh>Nro Habitacion</MudTh>
+                        <MudTh>Fecha Entrada</MudTh>
+                        <MudTh>Fecha Salida</MudTh>
+                        <MudTh>Total</MudTh>
+                    </HeaderContent>
+                    <RowTemplate Context="itemRow">
+                        <MudTd DataLabel="Nombre Cliente">@itemRow.NombreCliente</MudTd>
+                        <MudTd DataLabel="Tipo documento">@itemRow.TipoDocumento</MudTd>
+                        <MudTd DataLabel="Nro Documento">@itemRow.NroDocumento</MudTd>
+                        <MudTd DataLabel="Nro Habitacion">@itemRow.NroHabitacion</MudTd>
+                        <MudTd DataLabel="Fecha Entrada">@itemRow.FechaEntrada</MudTd>
+                        <MudTd DataLabel="Fecha Salida">@itemRow.FechaSalida</MudTd>
+                        <MudTd DataLabel="Total">@itemRow.TotalPagado</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+
+
+            </MudItem>
+        </MudGrid>
+
+    </MudPaper>
+
+</MudContainer>
+
+@code {
+    List<ReporteDTO> lista = new List<ReporteDTO>();
+    private bool _loading = false;
+    DateTime? fechaInicio = DateTime.Today;
+    DateTime? fechaFin = DateTime.Today;
+    private bool desactivarBoton = true;
+
+    private async Task Buscar()
+    {
+        _loading = true;
+        string _fechaInicio;
+        string _fechaFin;
+
+        _fechaInicio = fechaInicio.Value.ToString("dd/MM/yyyy");
+        _fechaFin = fechaFin.Value.ToString("dd/MM/yyyy");
+
+        var resultado = await _recepcionServicio.Reporte(_fechaInicio, _fechaFin);
+        if (resultado.status)
+        {
+            lista = (List<ReporteDTO>)resultado.value!;
+
+            if(lista.Any()) 
+                desactivarBoton = false;
+            else
+                desactivarBoton = true;
+        }
+        else
+        {
+            lista = new List<ReporteDTO>();
+            desactivarBoton = true;
+        }
+
+        _loading = false;
+    }
+
+    private async Task ExportarExcel()
+    {
+        if (lista.Any())
+        {
+
+            using (var libro = new XLWorkbook())
+            {
+                IXLWorksheet hoja = libro.Worksheets.Add("reporte");
+
+                hoja.Cell(1, 1).Value = "Nombre Cliente";
+                hoja.Cell(1, 2).Value = "Tipo documento";
+                hoja.Cell(1, 3).Value = "Nro Documento";
+                hoja.Cell(1, 4).Value = "Nro Habitacion";
+                hoja.Cell(1, 5).Value = "Fecha Entrada";
+                hoja.Cell(1, 6).Value = "Fecha Salida";
+                hoja.Cell(1, 7).Value = "Total";
+
+                hoja.Cell(2, 1).InsertData(lista);
+
+                using (var memoria = new MemoryStream())
+                {
+                    libro.SaveAs(memoria);
+
+                    var nombreExcel = string.Concat("Reporte ", DateTime.Now.ToString(), ".xlsx");
+
+                    await _jsServicio.InvokeAsync<object>(
+                        "DescargarExcel",
+                        nombreExcel,
+                        Convert.ToBase64String(memoria.ToArray())
+                    );
+
+                }
+            }
+        }
+
+    }
+}

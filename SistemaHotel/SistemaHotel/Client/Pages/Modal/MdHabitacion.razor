@@ -1,0 +1,136 @@
+﻿@inject IPisoServicio _pisoServicio
+@inject IHabitacionServicio _habitacionServicio
+@inject ICategoriaServicio _categoriaServicio
+@inject ISnackbar _snackBar
+
+<MudDialog Style="width:400px">
+
+    <DialogContent>
+        <MudContainer Style="max-height: 400px; overflow-y: scroll" Class="m-0 p-0">
+
+            <EditForm Model="@_habitacion">
+
+                <MudTextField @bind-Value="@_habitacion.Numero" Class="mb-3"
+                              Label="Numero" Variant="Variant.Outlined" Adornment="Adornment.End" 
+                              For="@(() => _habitacion.Numero)" />
+
+                <MudTextField @bind-Value="@_habitacion.Detalle" Class="mb-3"
+                              Label="Detalle" Variant="Variant.Outlined" Adornment="Adornment.End"
+                              For="@(() => _habitacion.Detalle)" />
+
+                <MudNumericField @bind-Value="@_habitacion.Precio" Class="mb-3"
+                                 Label="Precio" Variant="Variant.Outlined" Adornment="Adornment.End" 
+                                 For="@(() => _habitacion.Precio)" />
+
+                <MudSelect Label="Piso" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" Class="mb-3"
+                           @bind-Value="pisoSeleccionado">
+                    @if (listaPisos.Any())
+                    {
+                        foreach (var item in listaPisos)
+                        {
+                            <MudSelectItem Value="@item">@item.Descripcion</MudSelectItem>
+                        }
+                    }
+                </MudSelect>
+
+                <MudSelect Label="Categoria" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" Class="mb-3"
+                           @bind-Value="categoriaSeleccionado">
+                    @if (listaCategoria.Any())
+                    {
+                        foreach (var item in listaCategoria)
+                        {
+                            <MudSelectItem Value="@item">@item.Descripcion</MudSelectItem>
+                        }
+                    }
+                </MudSelect>
+
+            </EditForm>
+
+        </MudContainer>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Default" OnClick="Cancel">Cancelar</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Guardar">Guardar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public HabitacionDTO _habitacion { get; set; } = new HabitacionDTO();
+
+    List<PisoDTO> listaPisos = new List<PisoDTO>();
+    public PisoDTO pisoSeleccionado;
+
+
+    List<CategoriaDTO> listaCategoria = new List<CategoriaDTO>();
+    public CategoriaDTO categoriaSeleccionado;
+
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responsePiso = await _pisoServicio.Lista();
+        if (responsePiso.status)
+            listaPisos = (List<PisoDTO>)responsePiso.value!;
+
+
+        var responseCategoria = await _categoriaServicio.Lista();
+        if (responseCategoria.status)
+            listaCategoria = (List<CategoriaDTO>)responseCategoria.value!;
+
+
+        if (_habitacion.IdHabitacion != 0)
+        {
+            pisoSeleccionado = listaPisos.FirstOrDefault(p => p.IdPiso == _habitacion.IdPiso)!;
+            categoriaSeleccionado = listaCategoria.FirstOrDefault(p => p.IdCategoria == _habitacion.IdCategoria)!;
+        }
+        else
+        {
+            pisoSeleccionado = listaPisos.First();
+            categoriaSeleccionado = listaCategoria.First();
+        }
+
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+    private async Task Guardar()
+    {
+        if (string.IsNullOrWhiteSpace(_habitacion.Numero) || string.IsNullOrWhiteSpace(_habitacion.Detalle))
+            return;
+
+        _habitacion.IdPiso = pisoSeleccionado.IdPiso;
+        _habitacion.IdCategoria = categoriaSeleccionado.IdCategoria;
+
+
+        string _mensaje = "";
+        bool _resultado;
+
+        if (_habitacion.IdHabitacion != 0)
+        {
+            _resultado = await _habitacionServicio.Editar(_habitacion);
+            _mensaje = "Habitacion fue modificada";
+        }
+        else
+        {
+            _habitacion.IdEstadoHabitacion = 1;
+            var response = await _habitacionServicio.Crear(_habitacion);
+            _resultado = response.status;
+            _mensaje = "Habitacion fue creada";
+        }
+
+        if (_resultado)
+        {
+            _snackBar.Add(_mensaje, Severity.Success, a => a.VisibleStateDuration = 1000);
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        else
+            _snackBar.Add("Error al guardar cambios", Severity.Error, a => a.VisibleStateDuration = 1000);
+
+    }
+}

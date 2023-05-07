@@ -1,0 +1,173 @@
+﻿@page "/page/detalleSalida/{idRecepcion:int}"
+@inject IRecepcionServicio _recepcionServicio
+@inject SweetAlertService Swal;
+@inject NavigationManager navManager;
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+    <MudText Typo="Typo.h5" GutterBottom="true">Detalle</MudText>
+
+    <MudPaper Elevation="3" Class="pa-4" Width="100%">
+
+
+        <MudGrid>
+            <MudItem xs="12">
+
+                <MudCard>
+                    <MudCardHeader Class="pb-0">
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Habitación</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.IdHabitacionNavigation.Numero" Label="Numero"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.IdHabitacionNavigation.Detalle" Label="Categoria"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.IdHabitacionNavigation.IdCategoriaNavigation.Descripcion" Label="Detalle"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.IdHabitacionNavigation.IdPisoNavigation.Descripcion" Label="Piso"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.IdClienteNavigation.NombreCompleto" Label="Cliente"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.IdClienteNavigation.Documento" Label="Nro Documento"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="fechaEntrada" Label="Fecha Entrada"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="fechaSalida" Label="Fecha Salida"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                           
+
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+
+
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCard>
+                    <MudCardHeader Class="pb-0">
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Costo de hospedaje</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.IdHabitacionNavigation.Precio" Label="Costo Habitacion"
+                                              Disabled="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.Adelanto" Label="Cantidad Adelantado"
+                                              Disabled="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="_recepcionDTO.PrecioRestante" Label="Cantidad Restante"
+                                              Disabled="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudNumericField @bind-Value="@_recepcionDTO.CostoPenalidad" TextChanged="TextChange"
+                                                 Label="Costo por penalidad" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" />
+                            </MudItem>
+
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+   
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudTextField @bind-Value="totalPagar" Label="Total a pagar"
+                                              Disabled="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="3" md="3" sm="6">
+                                <MudButton Class="mt-1" Variant="Variant.Filled" Color="Color.Primary"
+                                           FullWidth="true"  OnClick="@Finalizar">Finalizar Recepcion</MudButton>
+                            </MudItem>
+
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+
+
+
+
+     </MudPaper>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int idRecepcion { get; set; }
+
+    private string fechaEntrada = "";
+    private string fechaSalida = "";
+    private decimal? totalPagar = 0;
+    private RecepcionDTO _recepcionDTO = new RecepcionDTO()
+    {
+        IdHabitacionNavigation = new HabitacionDTO()
+        {
+            IdCategoriaNavigation = new CategoriaDTO(),
+            IdPisoNavigation = new PisoDTO()
+        },
+        IdClienteNavigation = new ClienteDTO()
+    };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var response = await _recepcionServicio.Obtener(idRecepcion);
+
+        if (response.status)
+        {
+            _recepcionDTO = response.value!;
+            fechaEntrada = _recepcionDTO.FechaEntrada != null ? _recepcionDTO.FechaEntrada.Value.ToString("dd/MM/yyyy") : "";
+            fechaSalida = _recepcionDTO.FechaSalida != null ? _recepcionDTO.FechaSalida.Value.ToString("dd/MM/yyyy") : "";
+        }
+    }
+    private async Task TextChange(string e)
+    {
+
+        Console.WriteLine(_recepcionDTO.CostoPenalidad);
+
+        totalPagar = _recepcionDTO.PrecioRestante + _recepcionDTO.CostoPenalidad;
+    }
+    private async Task Finalizar()
+    {
+        _recepcionDTO.TotalPagado = totalPagar;
+        _recepcionDTO.FechaSalidaConfirmacion = DateTime.Today;
+        _recepcionDTO.Estado = false;
+        var response = await _recepcionServicio.Editar(_recepcionDTO);
+        if (response)
+        {
+            await Swal.FireAsync("Exito!", "La recepcion fue actualizada!", "success");
+            navManager.NavigateTo("/page/salida");
+        }
+        else
+        {
+            await Swal.FireAsync("Error!", "No se pudo actualizar", "error");
+        }
+    }
+}

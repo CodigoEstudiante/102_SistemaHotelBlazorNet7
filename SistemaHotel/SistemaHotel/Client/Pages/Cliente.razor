@@ -1,0 +1,165 @@
+﻿@page "/page/cliente"
+@attribute [Authorize]
+
+@inject IClienteServicio _clienteServicio
+@inject IDialogService _dialogServicio
+@inject ISnackbar _snackBar
+@inject SweetAlertService Swal;
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+    <MudText Typo="Typo.h5" GutterBottom="true">Clientes</MudText>
+
+    <MudPaper Elevation="3" Class="pa-4" Width="100%">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled"
+                           StartIcon="@Icons.Material.Filled.Add"
+                           Color="Color.Primary"
+                           OnClick="AbrirNuevoModelo">
+                    Nuevo Cliente
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12">
+
+                <MudTable Items="@listaModelos"
+                          Dense="true"
+                          Striped="true" Bordered="true"
+                          Filter="new Func<ClienteDTO,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1"
+                          Loading="@_loading" LoadingProgressColor="Color.Info">
+                    <ToolBarContent>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh>Tipo Documento</MudTh>
+                        <MudTh>Documento</MudTh>
+                        <MudTh>Nombre Completo</MudTh>
+                        <MudTh>Correo</MudTh>
+                        <MudTh></MudTh>
+                    </HeaderContent>
+                    <RowTemplate Context="modeloRow">
+                        <MudTd DataLabel="Tipo Documento">@modeloRow.TipoDocumento</MudTd>
+                        <MudTd DataLabel="Documento">@modeloRow.Documento</MudTd>
+                        <MudTd DataLabel="Nombre Completo">@modeloRow.NombreCompleto</MudTd>
+                        <MudTd DataLabel="Correo">@modeloRow.Correo</MudTd>
+                        <MudTd DataLabel="">
+                            <MudFab Color="Color.Primary"
+                                    StartIcon="@Icons.Material.Filled.Edit"
+                                    Size="Size.Small"
+                                    IconSize="Size.Small"
+                                    OnClick="@(() => AbrirEditarModelo(modeloRow))" />
+                            <MudFab Color="Color.Error"
+                                    StartIcon="@Icons.Material.Filled.Delete"
+                                    Size="Size.Small"
+                                    IconSize="Size.Small"
+                                    OnClick="@(() => EliminarModelo(modeloRow))" />
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+
+
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+</MudContainer>
+@code {
+    List<ClienteDTO> listaModelos = new List<ClienteDTO>();
+    private string searchString1 = "";
+    private ClienteDTO selectedItem1 = null;
+    private bool _loading = true;
+
+    private async Task ObtenerData()
+    {
+        var result = await _clienteServicio.Lista();
+
+        if (result.status)
+        {
+            listaModelos = (List<ClienteDTO>)result.value!;
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ObtenerData();
+        _loading = false;
+    }
+
+    private bool FilterFunc1(ClienteDTO element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(ClienteDTO element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (element.TipoDocumento.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (element.Documento.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.NombreCompleto.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Correo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+    private async Task AbrirNuevoModelo()
+    {
+        var dialogo = _dialogServicio.Show<MdCliente>("Nuevo Cliente");
+        var resultado = await dialogo.Result;
+
+        if (!resultado.Canceled)
+        {
+            await ObtenerData();
+        }
+    }
+
+    private async Task AbrirEditarModelo(ClienteDTO modelo)
+    {
+        var parametros = new DialogParameters { ["_cliente"] = modelo };
+
+        var dialogo = _dialogServicio.Show<MdCliente>("Editar Cliente", parametros);
+        var resultado = await dialogo.Result;
+        if (!resultado.Canceled)
+        {
+            await ObtenerData();
+        }
+    }
+
+    private async Task EliminarModelo(ClienteDTO modelo)
+    {
+        SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Esta seguro?",
+                Text = $"Eliminar cliente: {modelo.NombreCompleto}",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si, eliminar",
+                CancelButtonText = "No, volver"
+            });
+
+        if (result.IsConfirmed)
+        {
+            var resultado = await _clienteServicio.Eliminar(modelo.IdCliente);
+
+            if (resultado)
+            {
+                _snackBar.Add("El cliente fue eliminado", Severity.Success, a => a.VisibleStateDuration = 1000);
+                await ObtenerData();
+            }
+            else
+                _snackBar.Add("No se pudo eliminar", Severity.Error, a => a.VisibleStateDuration = 1000);
+        }
+    }
+
+
+
+
+
+}

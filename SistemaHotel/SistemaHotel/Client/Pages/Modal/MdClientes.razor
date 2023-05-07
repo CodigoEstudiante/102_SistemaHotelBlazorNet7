@@ -1,0 +1,98 @@
+﻿@inject IClienteServicio _clienteServicio
+@inject ISnackbar _snackBar
+
+<MudDialog Style="width:500px">
+
+    <DialogContent>
+        <MudContainer Style="max-height: 400px; overflow-y: scroll" Class="m-0 p-0">
+
+            <MudTable Items="@listaModelos"
+                      Dense="true"
+                      Striped="true" Bordered="true"
+                      Filter="new Func<ClienteDTO,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1"
+                      Loading="@_loading" LoadingProgressColor="Color.Info">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Clientes</MudText>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh></MudTh>
+                    <MudTh>Documento</MudTh>
+                    <MudTh>Nombre Completo</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="modeloRow">
+                    <MudTd DataLabel="">
+                        <MudIconButton Color="Color.Info"
+                                 Variant="Variant.Filled"
+                                 Icon="@Icons.Material.Filled.Check"
+                                Size="Size.Small"
+                                OnClick="@(() => Enviar(modeloRow))" />
+                    </MudTd>
+                    <MudTd DataLabel="Documento">@modeloRow.Documento</MudTd>
+                    <MudTd DataLabel="Nombre Completo">@modeloRow.NombreCompleto</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudContainer>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Default" OnClick="Cancel">Cerrar</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    List<ClienteDTO> listaModelos = new List<ClienteDTO>();
+    private string searchString1 = "";
+    private ClienteDTO selectedItem1 = null;
+    private bool _loading = true;
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private async Task ObtenerData()
+    {
+        var result = await _clienteServicio.Lista();
+
+        if (result.status)
+        {
+            listaModelos = (List<ClienteDTO>)result.value!;
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ObtenerData();
+        _loading = false;
+    }
+
+    private bool FilterFunc1(ClienteDTO element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(ClienteDTO element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (element.TipoDocumento.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (element.Documento.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.NombreCompleto.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Correo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+    private async Task Enviar(ClienteDTO modelo)
+    {
+        MudDialog.Close(DialogResult.Ok(modelo));
+    }
+
+}

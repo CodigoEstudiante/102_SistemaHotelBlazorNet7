@@ -1,0 +1,262 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Server\\SistemaHotel.Server.csproj": {}
+  },
+  "projects": {
+    "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Client\\SistemaHotel.Client.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Client\\SistemaHotel.Client.csproj",
+        "projectName": "SistemaHotel.Client",
+        "projectPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Client\\SistemaHotel.Client.csproj",
+        "packagesPath": "C:\\Users\\JCHAMBI\\.nuget\\packages\\",
+        "outputPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Client\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\JCHAMBI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\SistemaHotel.Shared.csproj": {
+                "projectPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\SistemaHotel.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Blazored.SessionStorage": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.101.0, )"
+            },
+            "CurrieTechnologies.Razor.SweetAlert2": {
+              "target": "Package",
+              "version": "[5.5.0, )"
+            },
+            "Microsoft.AspNetCore.Components.Authorization": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "MudBlazor": {
+              "target": "Package",
+              "version": "[6.2.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
+              "version": "[7.0.5, 7.0.5]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "browser-wasm": {
+          "#import": []
+        }
+      }
+    },
+    "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Server\\SistemaHotel.Server.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Server\\SistemaHotel.Server.csproj",
+        "projectName": "SistemaHotel.Server",
+        "projectPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Server\\SistemaHotel.Server.csproj",
+        "packagesPath": "C:\\Users\\JCHAMBI\\.nuget\\packages\\",
+        "outputPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Server\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\JCHAMBI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Client\\SistemaHotel.Client.csproj": {
+                "projectPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Client\\SistemaHotel.Client.csproj"
+              },
+              "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\SistemaHotel.Shared.csproj": {
+                "projectPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\SistemaHotel.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.Server": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\SistemaHotel.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\SistemaHotel.Shared.csproj",
+        "projectName": "SistemaHotel.Shared",
+        "projectPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\SistemaHotel.Shared.csproj",
+        "packagesPath": "C:\\Users\\JCHAMBI\\.nuget\\packages\\",
+        "outputPath": "E:\\WorkSpaceAD\\YOUTUBE\\102_SISTEMA HOTEL BLAZOR NET 7\\Subir02\\SistemaHotel\\SistemaHotel\\Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\JCHAMBI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

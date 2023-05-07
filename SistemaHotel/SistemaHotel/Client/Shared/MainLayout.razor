@@ -1,0 +1,68 @@
+﻿
+@inherits LayoutComponentBase
+@inject SweetAlertService Swal;
+@inject NavigationManager _navigationManager
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.Authorization;
+@using SistemaHotel.Client.Utilidades;
+@using System.Security.Claims;
+@inject AuthenticationStateProvider autenticacionProvider
+
+
+<MudSnackbarProvider />
+<MudThemeProvider />
+<MudDialogProvider DisableBackdropClick="true"
+                   Position="DialogPosition.Center" />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <AuthorizeView>
+            <Authorized>
+                <MudText>@context.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()</MudText>
+            </Authorized>
+        </AuthorizeView>
+        
+        <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" OnClick="CerrarSesion" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6">Sistema de Hotel</MudText>
+        </MudDrawerHeader>
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private async Task CerrarSesion()
+    {
+        SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Desea salir?",
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+            });
+
+        if (result.IsConfirmed)
+        {
+            var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+            await autenticacionExt.ActualizarEstadoAutenticacion(null);
+            _navigationManager.NavigateTo("/", true);
+        }
+    }
+}

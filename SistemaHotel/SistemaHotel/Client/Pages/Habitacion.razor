@@ -1,0 +1,171 @@
+﻿@page "/page/habitacion"
+@attribute [Authorize(Roles = "Administrador")]
+
+@inject IHabitacionServicio _habitacionServicio
+@inject IDialogService _dialogServicio
+@inject ISnackbar _snackBar
+@inject SweetAlertService Swal;
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+    <MudText Typo="Typo.h5" GutterBottom="true">Habitaciones</MudText>
+
+    <MudPaper Elevation="3" Class="pa-4" Width="100%">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled"
+                           StartIcon="@Icons.Material.Filled.Add"
+                           Color="Color.Primary"
+                           OnClick="AbrirNuevoModelo">
+                    Nueva Habitacion
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12">
+
+                <MudTable Items="@listaModelos"
+                          Dense="true"
+                          Striped="true" Bordered="true"
+                          Filter="new Func<HabitacionDTO,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1"
+                          Loading="@_loading" LoadingProgressColor="Color.Info">
+                    <ToolBarContent>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="searchString1" Placeholder="Buscar" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh>Numero</MudTh>
+                        <MudTh>Detalle</MudTh>
+                        <MudTh>Precio</MudTh>
+                        <MudTh>Piso</MudTh>
+                        <MudTh>Categoria</MudTh>
+                        <MudTh></MudTh>
+                    </HeaderContent>
+                    <RowTemplate Context="modeloRow">
+                        <MudTd DataLabel="DescripNumerocion">@modeloRow.Numero</MudTd>
+                        <MudTd DataLabel="Detalle">@modeloRow.Detalle</MudTd>
+                        <MudTd DataLabel="Precio">@modeloRow.Precio</MudTd>
+                        <MudTd DataLabel="Piso">@modeloRow.IdPisoNavigation.Descripcion  </MudTd>
+                        <MudTd DataLabel="Categoria">@modeloRow.IdCategoriaNavigation.Descripcion</MudTd>
+                        <MudTd DataLabel="">
+                            <MudFab Color="Color.Primary"
+                                    StartIcon="@Icons.Material.Filled.Edit"
+                                    Size="Size.Small"
+                                    IconSize="Size.Small"
+                                    OnClick="@(() => AbrirEditarModelo(modeloRow))" />
+                            <MudFab Color="Color.Error"
+                                    StartIcon="@Icons.Material.Filled.Delete"
+                                    Size="Size.Small"
+                                    IconSize="Size.Small"
+                                    OnClick="@(() => EliminarModelo(modeloRow))" />
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+
+
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+</MudContainer>
+@code {
+    List<HabitacionDTO> listaModelos = new List<HabitacionDTO>();
+    private string searchString1 = "";
+    private HabitacionDTO selectedItem1 = null;
+    private bool _loading = true;
+
+    private async Task ObtenerData()
+    {
+        var result = await _habitacionServicio.Lista();
+
+        if (result.status)
+        {
+            listaModelos = (List<HabitacionDTO>)result.value!;
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ObtenerData();
+        _loading = false;
+    }
+
+    private bool FilterFunc1(HabitacionDTO element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(HabitacionDTO element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (element.Numero.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Detalle.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.IdEstadoHabitacionNavigation.Descripcion.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (element.IdPisoNavigation.Descripcion.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (element.IdCategoriaNavigation.Descripcion.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+
+    private async Task AbrirNuevoModelo()
+    {
+        var dialogo = _dialogServicio.Show<MdHabitacion>("Nueva Habitacion");
+        var resultado = await dialogo.Result;
+
+        if (!resultado.Canceled)
+        {
+            await ObtenerData();
+        }
+    }
+
+    private async Task AbrirEditarModelo(HabitacionDTO modelo)
+    {
+        var parametros = new DialogParameters { ["_habitacion"] = modelo };
+
+        var dialogo = _dialogServicio.Show<MdHabitacion>("Editar Habitacion", parametros);
+        var resultado = await dialogo.Result;
+        if (!resultado.Canceled)
+        {
+            await ObtenerData();
+        }
+    }
+
+    private async Task EliminarModelo(HabitacionDTO modelo)
+    {
+        SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Esta seguro?",
+                Text = $"Eliminar habitacion: {modelo.Numero}",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si, eliminar",
+                CancelButtonText = "No, volver"
+            });
+
+        if (result.IsConfirmed)
+        {
+            var resultado = await _habitacionServicio.Eliminar(modelo.IdHabitacion);
+
+            if (resultado)
+            {
+                _snackBar.Add("La habitacion fue eliminada", Severity.Success, a => a.VisibleStateDuration = 1000);
+                await ObtenerData();
+            }
+            else
+                _snackBar.Add("No se pudo eliminar", Severity.Error, a => a.VisibleStateDuration = 1000);
+        }
+    }
+
+
+
+
+
+}

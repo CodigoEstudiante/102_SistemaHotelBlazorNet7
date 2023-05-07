@@ -1,0 +1,113 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = SistemaHotel.Client
+build_property.RootNamespace = SistemaHotel.Client
+build_property.ProjectDir = E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\Subir02\SistemaHotel\SistemaHotel\Client\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\WorkSpaceAD\YOUTUBE\102_SISTEMA HOTEL BLAZOR NET 7\Subir02\SistemaHotel\SistemaHotel\Client
+build_property._RazorSourceGeneratorDebug = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Categoria.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcmlhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Cliente.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Dashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Detalle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGV0YWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/DetalleSalida.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGV0YWxsZVNhbGlkYS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Habitacion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGFiaXRhY2lvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Modal/MdCategoria.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9kYWxcTWRDYXRlZ29yaWEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Modal/MdCliente.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9kYWxcTWRDbGllbnRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Modal/MdClientes.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9kYWxcTWRDbGllbnRlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Modal/MdHabitacion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9kYWxcTWRIYWJpdGFjaW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Modal/MdPiso.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9kYWxcTWRQaXNvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Modal/MdUsuario.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9kYWxcTWRVc3VhcmlvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Piso.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGlzby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Recepcion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVjZXBjaW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Reporte.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Salida.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2FsaWRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Pages/Usuario.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXN1YXJpby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Shared/LoginLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-oofn09xolu
+
+[E:/WorkSpaceAD/YOUTUBE/102_SISTEMA HOTEL BLAZOR NET 7/Subir02/SistemaHotel/SistemaHotel/Client/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-hw3yeojvo1

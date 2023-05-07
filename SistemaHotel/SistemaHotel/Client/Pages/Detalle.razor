@@ -1,0 +1,230 @@
+﻿@page "/page/detalle/{idHabitacion:int}"
+
+@inject IHabitacionServicio _habitacionServicio
+@inject IRecepcionServicio _recepcionServicio
+@inject IDialogService _dialogServicio
+@inject SweetAlertService Swal;
+@inject NavigationManager navManager;
+
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+    <MudText Typo="Typo.h5" GutterBottom="true">Detalle</MudText>
+
+    <MudPaper Elevation="3" Class="pa-4" Width="100%">
+
+         <MudGrid>
+              <MudItem xs="12">
+                <MudCard>
+                    <MudCardHeader Class="pb-0">
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Habitación</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="12" lg="6" md="6" sm="6">
+
+                                <MudTextField @bind-Value="_habitacionDTO.Numero" Label="Numero" 
+                                ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+
+                            </MudItem>
+                            <MudItem xs="12" lg="6" md="6" sm="6">
+
+                                <MudTextField @bind-Value="_habitacionDTO.IdCategoriaNavigation.Descripcion" Label="Categoria"
+                                ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+
+                            </MudItem>
+                            <MudItem xs="12" lg="6" md="6" sm="6">
+                                <MudTextField @bind-Value="_habitacionDTO.Detalle" Label="Detalle"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" lg="6" md="6" sm="6">
+                                <MudTextField @bind-Value="_habitacionDTO.IdPisoNavigation.Descripcion" Label="Piso"
+                                              ReadOnly="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+
+
+              </MudItem>
+         </MudGrid>
+
+
+         <MudGrid>
+
+            <MudItem xs="12" lg="6" md="6" sm="6">
+                <MudCard>
+                    <MudCardHeader Class="pb-0">
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Cliente</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="12">
+                                
+                                <MudGrid>
+                                    <MudItem xs="6">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Size="Size.Small" OnClick="Buscar">Buscar</MudButton>
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <MudButton Variant="Variant.Filled" Color="Color.Success" FullWidth="true" Size="Size.Small" OnClick="@CrearCliente">Crear</MudButton>
+                                    </MudItem>
+                                </MudGrid>
+
+                            </MudItem>
+
+
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="_clienteDTO.TipoDocumento" Label="Tipo Documento"
+                                              Disabled="@(!_crearCliente)" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="_clienteDTO.Documento" Label="Documento"
+                                              Disabled="@(!_crearCliente)" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="_clienteDTO.NombreCompleto" Label="Nombre Completo"
+                                              Disabled="@(!_crearCliente)" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="_clienteDTO.Correo" Label="Correo"
+                                              Disabled="@(!_crearCliente)" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+             </MudItem>
+
+
+            <MudItem xs="12" lg="6" md="6" sm="6">
+                <MudCard>
+                    <MudCardHeader Class="pb-0">
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Recepcion</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" 
+                                OnClick="Registrar"
+                            Color="Color.Primary" Size="Size.Small">Registrar</MudButton>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="12">
+                                <MudDatePicker Label="Fecha Entrada" PickerVariant="PickerVariant.Dialog" Margin="Margin.Dense" DisableToolbar="true"
+                                               Variant="Variant.Outlined" DateFormat="dd/MM/yyyy" @bind-Date="fechaEntrada" ReadOnly="true" />
+                            </MudItem>
+
+                            <MudItem xs="12">
+                                <MudDatePicker Label="Fecha Salida" PickerVariant="PickerVariant.Dialog" Margin="Margin.Dense" DisableToolbar="true"
+                                               Variant="Variant.Outlined" DateFormat="dd/MM/yyyy" Date="fechaSalida"  DateChanged="OnDateChange"  />
+                            </MudItem>
+
+                            <MudItem xs="12">
+                                <MudNumericField @bind-Value="@precioFinal"
+                                                 Label="Precio" Variant="Variant.Outlined" Adornment="Adornment.End" ReadOnly="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudNumericField @bind-Value="@_recepcionDTO.Adelanto" 
+                                                 Label="Adelanto" Variant="Variant.Outlined" Adornment="Adornment.End" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField @bind-Value="_recepcionDTO.Observacion" Label="Observacion"
+                                              Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+         </MudGrid>
+
+    </MudPaper>
+
+
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int idHabitacion { get; set; }
+
+    private ClienteDTO _clienteDTO = new ClienteDTO();
+    private RecepcionDTO _recepcionDTO = new RecepcionDTO();
+    private bool _crearCliente = false;
+    decimal? precioFinal = 0;
+    DateTime? fechaEntrada = DateTime.Today;
+    DateTime? fechaSalida = DateTime.Today;
+    private HabitacionDTO _habitacionDTO = new HabitacionDTO()
+    {
+        IdEstadoHabitacionNavigation = new EstadoHabitacionDTO(),
+        IdCategoriaNavigation = new CategoriaDTO(),
+        IdPisoNavigation = new PisoDTO()
+    };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var response = await _habitacionServicio.Obtener(idHabitacion);
+
+        if (response.status)
+        {
+            _habitacionDTO = response.value!;
+            precioFinal = _habitacionDTO.Precio;
+        }
+
+
+
+    }
+
+    private async Task CrearCliente()
+    {
+        _crearCliente = true;
+        _clienteDTO = new ClienteDTO();
+    }
+
+    private async Task Buscar()
+    {
+        DialogOptions options = new DialogOptions() { Position = DialogPosition.TopCenter, NoHeader = true };
+        var dialogo = _dialogServicio.Show<MdClientes>("", options);
+        var resultado = await dialogo.Result;
+
+        if (!resultado.Canceled)
+        {
+            _crearCliente = false;
+            _clienteDTO = (ClienteDTO)resultado.Data;
+        }
+    }
+
+    private void OnDateChange(DateTime? newDate)
+    {
+        fechaSalida = newDate;
+        double days = (newDate - fechaEntrada).Value.TotalDays;
+
+        precioFinal = _habitacionDTO.Precio * (Convert.ToDecimal(days) + 1);
+
+    }
+
+    private async Task Registrar()
+    {
+        _recepcionDTO.IdClienteNavigation = _clienteDTO;
+        _recepcionDTO.IdHabitacion = _habitacionDTO.IdHabitacion;
+        _recepcionDTO.FechaEntrada = fechaEntrada;
+        _recepcionDTO.FechaSalida = fechaSalida;
+        _recepcionDTO.PrecioInicial = precioFinal;
+        _recepcionDTO.PrecioRestante = precioFinal - (_recepcionDTO.Adelanto == null ? 0 : _recepcionDTO.Adelanto);
+
+        var response = await _recepcionServicio.Crear(_recepcionDTO);
+
+        if (response.status)
+        {
+            await Swal.FireAsync("Exito!", "La recepcion fue registrada!", "success");
+            navManager.NavigateTo("/page/recepcion");
+        }
+        else
+        {
+            await Swal.FireAsync("Error!", response.msg, "error");
+        }
+    }
+
+}

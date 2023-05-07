@@ -1,0 +1,62 @@
+﻿@page "/page/dashboard"
+
+@inject IDashBoardServicio _dashboardServicio;
+@attribute [Authorize]
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+    <MudPaper Elevation="3" Class="pa-4" Width="100%">
+
+        <MudGrid>
+            <MudItem sm="12" md="6" xs="12">
+                <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+                    <MudIcon Icon="@Icons.Material.Filled.MenuBook" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total Habitaciones</MudText>
+                        <MudText Typo="Typo.h5">@dashboardDTO.TotalHabitaciones</MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+            <MudItem sm="12" md="6" xs="12">
+                <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Groups" Color="Color.Secondary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Habitaciones Disponibles</MudText>
+                        <MudText Typo="Typo.h5">@dashboardDTO.TotalHabitacionesDisponibles</MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+            <MudItem sm="12" md="6" xs="12">
+                <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Assignment" Color="Color.Success" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Habitaciones Ocupadas</MudText>
+                        <MudText Typo="Typo.h5">@dashboardDTO.TotalHabitacionesOcupadas</MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+            <MudItem sm="12" md="6" xs="12">
+                <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+                    <MudIcon Icon="@Icons.Material.Filled.AssignmentLate" Color="Color.Error" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Habitaciones Limpieza</MudText>
+                        <MudText Typo="Typo.h5">@dashboardDTO.TotalHabitacionesEnLimpieza</MudText>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+
+    </MudPaper>
+
+</MudContainer>
+@code {
+    DashBoardDTO dashboardDTO = new DashBoardDTO();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var respuesta = await _dashboardServicio.Resumen();
+        if (respuesta.status)
+            dashboardDTO = (DashBoardDTO)respuesta.value!;
+    }
+}

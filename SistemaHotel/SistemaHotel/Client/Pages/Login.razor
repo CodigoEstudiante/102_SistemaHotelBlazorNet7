@@ -1,0 +1,97 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization;
+@using SistemaHotel.Client.Utilidades;
+@layout LoginLayout
+@inject IUsuarioServicio _usuarioServicio;
+@inject NavigationManager _navigationManager
+@inject AuthenticationStateProvider autenticacionProvider
+
+<EditForm Model="@usuarioLogin" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">Bienvenido</MudText>
+
+    <MudTextField T="string"
+                  @bind-Value="@usuarioLogin.correo"
+                  Label="Correo"
+                  Variant="Variant.Outlined"
+                  Class="my-6"
+                  For="@(() => usuarioLogin.correo)">
+    </MudTextField>
+
+    <MudTextField @bind-Value="@usuarioLogin.clave"
+                  Label="Contraseña"
+                  Variant="Variant.Outlined"
+                  InputType="@PasswordInput"
+                  Adornment="Adornment.End"
+                  AdornmentIcon="@PasswordInputIcon"
+                  OnAdornmentClick="TogglePasswordVisibility"
+                  For="@(() => usuarioLogin.clave )" />
+
+    <MudButton Class="mt-5" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Size="Size.Large"
+               FullWidth="true"
+               Disabled="@disableButton">Iniciar Sesión</MudButton>
+
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="@(myImageClass + " my-7")" />
+</EditForm>
+
+<MudAlert Severity="Severity.Error" Class="@(myAlert + " mt-8 mud-width-full")" Style="max-width:500px;" Elevation="25">No se encontraron coincidencias</MudAlert>
+
+
+@code {
+
+    UsuarioLogin usuarioLogin = new UsuarioLogin();
+    string myImageClass { get; set; } = "d-none";
+    string myAlert { get; set; } = "d-none";
+    bool disableButton { get; set; } = false;
+
+
+    bool PasswordVisibility;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePasswordVisibility()
+    {
+        @if (PasswordVisibility)
+        {
+            PasswordVisibility = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            PasswordVisibility = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+
+    private async Task OnValidSubmit()
+    {
+        myImageClass = "d-block";
+        disableButton = true;
+        var result = await _usuarioServicio.IniciarSesion(usuarioLogin.correo, usuarioLogin.clave);
+
+        if (result.status)
+        {
+            SesionDTO sesionUsuario = new SesionDTO
+            {
+                Nombre = result.value!.NombreCompleto,
+                Correo = result.value!.Correo,
+                Rol = result.value!.IdRolUsuarioNavigation.Descripcion,
+            };
+            var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
+            await autenticacionExt.ActualizarEstadoAutenticacion(sesionUsuario);
+            _navigationManager.NavigateTo("/page/dashboard");
+        }
+       
+        else
+        {
+            myImageClass = "d-none";
+            disableButton = false;
+            myAlert = "d-block";
+        }
+    }
+}
+
